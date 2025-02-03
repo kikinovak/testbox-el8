@@ -4,9 +4,16 @@
 
   tasks:
 
-    - name: Install Vim
+    - name: Configure EPEL repository
       ansible.builtin.dnf:
-        name: vim-enhanced
+        name: epel-release
+        state: present
+
+    - name: Install packages
+      ansible.builtin.dnf:
+        name:
+          - vim-enhanced
+          - cowsay
         state: present
 
     - name: Enable SELinux in enforcing mode
