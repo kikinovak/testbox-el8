@@ -1,8 +1,10 @@
 ---  # local.yml
 
 - hosts: localhost
+
   vars:
     ansible_python_interpreter: /usr/bin/python3
+    root_passwd: test
 
   tasks:
 
@@ -23,6 +25,18 @@
         policy: targeted
         state: enforcing
       notify: Relabel filesystem
+
+    - name: Set password and generate SSH key pair for root
+      ansible.builtin.user:
+        name: root
+        password: >-
+          {{root_passwd|
+          password_hash('sha512', 65534|
+          random(seed=inventory_hostname)|
+          string)}}
+        generate_ssh_key: true
+        ssh_key_type: ed25519
+        ssh_key_file: .ssh/id_ed25519
 
   handlers:
 
