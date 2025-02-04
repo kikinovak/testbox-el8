@@ -1,0 +1,5 @@
+---  # host_vars/all.yml
+
+ansible_python_interpreter: /usr/bin/python3
+
+...
